@@ -11,6 +11,29 @@ namespace Conscript.Borderscript
 
         public List<string> Words;
 
+        public int Length
+        {
+            get
+            {
+                var l = 0;
+                foreach (var word in Words)
+                {
+                    l += word.Length;
+                }
+
+                l += Words.Count - 1;
+
+                return l;
+            }
+        }
+
+        public BorderscriptSentence()
+        {
+            _wordList = LoadWordList(@"Borderscript\Wordlist 1000.txt");
+            Words = new List<string>();
+        }
+
+
         public BorderscriptSentence(string sentence)
         {
             _wordList = LoadWordList(@"Borderscript\Wordlist 1000.txt");
@@ -74,6 +97,9 @@ namespace Conscript.Borderscript
 
         public override string ToString()
         {
+            if (Words.Count == 0)
+                return "";
+
             return string.Join("╪", Words);
         }
     }

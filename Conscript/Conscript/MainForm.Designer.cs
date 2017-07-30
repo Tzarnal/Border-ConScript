@@ -51,8 +51,8 @@
             // mainFormSplitContainer.Panel2
             // 
             this.mainFormSplitContainer.Panel2.Controls.Add(this.outputTextBox);
-            this.mainFormSplitContainer.Size = new System.Drawing.Size(1008, 473);
-            this.mainFormSplitContainer.SplitterDistance = 500;
+            this.mainFormSplitContainer.Size = new System.Drawing.Size(1184, 473);
+            this.mainFormSplitContainer.SplitterDistance = 586;
             this.mainFormSplitContainer.TabIndex = 0;
             // 
             // inputTextBox
@@ -60,7 +60,7 @@
             this.inputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.inputTextBox.Location = new System.Drawing.Point(0, 0);
             this.inputTextBox.Name = "inputTextBox";
-            this.inputTextBox.Size = new System.Drawing.Size(500, 473);
+            this.inputTextBox.Size = new System.Drawing.Size(586, 473);
             this.inputTextBox.TabIndex = 0;
             this.inputTextBox.Text = "";
             this.inputTextBox.TextChanged += new System.EventHandler(this.InputTextChanged);
@@ -72,15 +72,16 @@
             this.outputTextBox.Location = new System.Drawing.Point(0, 0);
             this.outputTextBox.Name = "outputTextBox";
             this.outputTextBox.ReadOnly = true;
-            this.outputTextBox.Size = new System.Drawing.Size(504, 473);
+            this.outputTextBox.Size = new System.Drawing.Size(594, 473);
             this.outputTextBox.TabIndex = 1;
             this.outputTextBox.Text = "";
+            this.outputTextBox.WordWrap = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 473);
+            this.ClientSize = new System.Drawing.Size(1184, 473);
             this.Controls.Add(this.mainFormSplitContainer);
             this.Name = "MainForm";
             this.Text = "Border Conscript";
