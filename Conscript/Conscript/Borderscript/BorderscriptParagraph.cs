@@ -68,7 +68,10 @@ namespace Conscript.Borderscript
             var bottomLine = PadLine(dividedRawOutput[dividedRawOutput.Count - 1],w);
             var bottomCap = BottomCapLine(bottomLine);
 
-            output.AppendLine(bottomLine);
+            if (bottomLine != topLine)
+            {
+                output.AppendLine(bottomLine);
+            }            
             output.AppendLine(bottomCap);
 
             return output.ToString();
