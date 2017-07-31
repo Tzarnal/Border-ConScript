@@ -7,6 +7,7 @@ namespace Conscript.Borderscript
     {
         public string inputLabel => "Text";
         public string outputLabel => "Borderscript";
+        public bool outputWordWrap => false;
 
         public string Encode(string text)
         {

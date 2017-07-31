@@ -34,8 +34,7 @@ namespace Conscript
             _isEncoding = true;
             inputBoxLabel.Text = _encoder.inputLabel;
             outputBoxLabel.Text = _encoder.outputLabel;
-
-            encodeDecodeSwitch_Click(null, null);
+            
         }
 
         private void InputTextChanged(object sender, EventArgs e)
@@ -147,12 +146,14 @@ namespace Conscript
                 _isEncoding = false;
                 inputBoxLabel.Text = _encoder.outputLabel;
                 outputBoxLabel.Text = _encoder.inputLabel;
+                outputTextBox.WordWrap = true;
             }
             else
             {
                 _isEncoding = true;
                 inputBoxLabel.Text = _encoder.inputLabel;
                 outputBoxLabel.Text = _encoder.outputLabel;
+                outputTextBox.WordWrap = _encoder.outputWordWrap;
             }
 
             var text = outputTextBox.Text;
