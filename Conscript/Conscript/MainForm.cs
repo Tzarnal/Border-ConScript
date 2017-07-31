@@ -35,6 +35,9 @@ namespace Conscript
             inputBoxLabel.Text = _encoder.inputLabel;
             outputBoxLabel.Text = _encoder.outputLabel;
             
+            this.Show();
+
+            inputTextBox.Select();
         }
 
         private void InputTextChanged(object sender, EventArgs e)
