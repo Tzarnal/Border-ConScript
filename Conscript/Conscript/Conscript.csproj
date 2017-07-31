@@ -49,7 +49,6 @@
     <Compile Include="Borderscript\BorderScriptHinter.cs" />
     <Compile Include="Borderscript\BorderscriptParagraph.cs" />
     <Compile Include="Borderscript\BorderscriptSentence.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

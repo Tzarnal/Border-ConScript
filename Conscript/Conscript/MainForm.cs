@@ -11,7 +11,9 @@ namespace Conscript
         private BorderscriptEncoder _encoder;
         private BorderScriptHinter _hinter;
 
-        private int _previousInputTextLengt = 0;
+        private RichTextBox _editRichTextBox;
+
+        private int _previousInputTextLengt;
 
         public MainForm()
         {
@@ -22,6 +24,9 @@ namespace Conscript
         {
             _encoder = new BorderscriptEncoder();
             _hinter = new BorderScriptHinter();
+
+            _editRichTextBox = new RichTextBox();
+            _editRichTextBox.WordWrap = false;
         }
 
         private void InputTextChanged(object sender, EventArgs e)
@@ -32,6 +37,11 @@ namespace Conscript
 
         private void HighLightText()
         {
+            var selectionStart = inputTextBox.SelectionStart;
+
+            _editRichTextBox.Rtf = inputTextBox.Rtf;
+            _editRichTextBox.SelectionStart = selectionStart;
+
             if (inputTextBox.TextLength - _previousInputTextLengt > 1)
             {
                 HighLightAllText();
@@ -42,42 +52,42 @@ namespace Conscript
             }
 
             _previousInputTextLengt = inputTextBox.TextLength;
+
+            inputTextBox.Rtf = _editRichTextBox.Rtf;
+            inputTextBox.SelectionStart = selectionStart;
         }
 
 
         private void HighLightTextLine(int? line = null)
         {
             var currentLine = line == null 
-                ? inputTextBox.GetFirstCharIndexOfCurrentLine() 
-                : inputTextBox.GetFirstCharIndexFromLine(line.Value);
+                ? _editRichTextBox.GetFirstCharIndexOfCurrentLine() 
+                : _editRichTextBox.GetFirstCharIndexFromLine(line.Value);
 
             if (line == null)
             {
 
-                line = inputTextBox.GetLineFromCharIndex(currentLine);
+                line = _editRichTextBox.GetLineFromCharIndex(currentLine);
             }
 
-            if (inputTextBox.Lines.Length <= line.Value)
+            if (_editRichTextBox.Lines.Length <= line.Value)
             {
                 return;
             }
-
-            //Prep
-            inputTextBox.SuspendLayout();
-            inputTextBox.Suspend();
-            var originalCursorLocation = inputTextBox.SelectionStart;
             
+            var originalCursorLocation = _editRichTextBox.SelectionStart;
+
             //Color whole line box black
-            inputTextBox.Select(currentLine, inputTextBox.Lines[line.Value].Length);
-            inputTextBox.SelectionColor = Color.Black;
+            _editRichTextBox.Select(currentLine, _editRichTextBox.Lines[line.Value].Length);
+            _editRichTextBox.SelectionColor = Color.Black;
 
             var words = Regex.Matches(inputTextBox.Text, @"\w+");
             foreach (Match wordMatch in words)
             {
                 var word = wordMatch.ToString();
-                if (!_hinter.IsValid(word))
+                if (!_hinter.IsValid(word.ToLower()))
                 {
-                    if (!string.IsNullOrWhiteSpace(word.ToLower()))
+                    if (!string.IsNullOrWhiteSpace(word))
                     {
                         ColorWordInInput(word, currentLine);
                     }
@@ -86,19 +96,16 @@ namespace Conscript
             }
 
             //Return to defaults
-            inputTextBox.SelectionStart = originalCursorLocation;
-            inputTextBox.SelectionLength = 0;
-            inputTextBox.SelectionColor = Color.Black;
-
-            inputTextBox.Resume();
-            inputTextBox.ResumeLayout();
+            _editRichTextBox.SelectionStart = originalCursorLocation;
+            _editRichTextBox.SelectionLength = 0;
+            _editRichTextBox.SelectionColor = Color.Black;
         }
 
         private void HighLightAllText()
         {
             int i = 0;
 
-            foreach (var line in inputTextBox.Lines)
+            foreach (var line in _editRichTextBox.Lines)
             {
                 HighLightTextLine(i);
                 i++;
@@ -107,16 +114,14 @@ namespace Conscript
 
         private void ColorWordInInput(string word,int startIndex = 0)
         {
-            var wordIndex = inputTextBox.Find(word, startIndex, RichTextBoxFinds.WholeWord);
+            var wordIndex = _editRichTextBox.Find(word, startIndex, RichTextBoxFinds.WholeWord);
             var wordLength = word.Length;
 
             if (wordIndex == -1)
                 return;
 
-            inputTextBox.Select(wordIndex,wordLength);
-            inputTextBox.SelectionColor = Color.Red;                        
+            _editRichTextBox.Select(wordIndex,wordLength);
+            _editRichTextBox.SelectionColor = Color.Red;                        
         }
-
-
     }
 }
