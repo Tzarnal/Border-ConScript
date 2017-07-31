@@ -10,10 +10,12 @@ namespace Conscript
     {
         private BorderscriptEncoder _encoder;
         private BorderScriptHinter _hinter;
+        private BorderscriptDecoder _decoder;
 
         private RichTextBox _editRichTextBox;
 
         private int _previousInputTextLengt;
+        private bool _isEncoding;
 
         public MainForm()
         {
@@ -23,16 +25,30 @@ namespace Conscript
         private void MainForm_Load(object sender, EventArgs e)
         {
             _encoder = new BorderscriptEncoder();
+            _decoder = new BorderscriptDecoder();
             _hinter = new BorderScriptHinter();
 
             _editRichTextBox = new RichTextBox();
             _editRichTextBox.WordWrap = false;
+
+            _isEncoding = true;
+            inputBoxLabel.Text = _encoder.inputLabel;
+            outputBoxLabel.Text = _encoder.outputLabel;
+
+            encodeDecodeSwitch_Click(null, null);
         }
 
         private void InputTextChanged(object sender, EventArgs e)
-        {            
-            outputTextBox.Text = _encoder.Encode(inputTextBox.Text);
-            HighLightText();
+        {
+            if (_isEncoding)
+            {
+                outputTextBox.Text = _encoder.Encode(inputTextBox.Text);
+                HighLightText();
+            }
+            else
+            {
+                outputTextBox.Text = _decoder.Decode(inputTextBox.Text);
+            }                        
         }
 
         private void HighLightText()
@@ -63,7 +79,7 @@ namespace Conscript
             var currentLine = line == null 
                 ? _editRichTextBox.GetFirstCharIndexOfCurrentLine() 
                 : _editRichTextBox.GetFirstCharIndexFromLine(line.Value);
-
+                        
             if (line == null)
             {
 
@@ -122,6 +138,26 @@ namespace Conscript
 
             _editRichTextBox.Select(wordIndex,wordLength);
             _editRichTextBox.SelectionColor = Color.Red;                        
+        }
+
+        private void encodeDecodeSwitch_Click(object sender, EventArgs e)
+        {
+            if (_isEncoding)
+            {
+                _isEncoding = false;
+                inputBoxLabel.Text = _encoder.outputLabel;
+                outputBoxLabel.Text = _encoder.inputLabel;
+            }
+            else
+            {
+                _isEncoding = true;
+                inputBoxLabel.Text = _encoder.inputLabel;
+                outputBoxLabel.Text = _encoder.outputLabel;
+            }
+
+            var text = outputTextBox.Text;
+            outputTextBox.Text = "";
+            inputTextBox.Text = text;
         }
     }
 }

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Borderscript\BorderscriptDecoder.cs" />
     <Compile Include="Borderscript\BorderscriptEncoder.cs" />
     <Compile Include="Borderscript\BorderScriptHinter.cs" />
     <Compile Include="Borderscript\BorderscriptParagraph.cs" />
